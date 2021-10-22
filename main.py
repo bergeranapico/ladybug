@@ -8,9 +8,13 @@ import csv
 import tkinter
 from tkinter import filedialog
 
+# define serial number of Ladybug sensor
+ser_lb = '177465'
+print('serial number of LB5940L is: ' + ser_lb)
+
 # Inputs vom User sammeln
 IP = input('IP-Adresse DUT eingeben (z.B. 192.168.1.196): ')
-ser_lb = input('Seriennummer vom Ladybug 5940L eingeben (z.B. 177465): ')
+#ser_lb = input('Seriennummer vom Ladybug 5940L eingeben (z.B. 177465): ')
 power = input('gewünschten Leistungspegel [dBm] eingeben (z.B. 0) oder "min" bzw. "max" eingeben: ')
 if not power == 'max' or power =='min':
     power = float(power)
