@@ -39,7 +39,7 @@ dut = rm.open_resource('TCPIP0::' + IP + '::inst0::INSTR')
 # initialize ladybug
 lb.read_termination = '\n'
 lb.write_termination = '\n'
-lb.timeout = 5000
+lb.timeout = 6000
 lb.write('*CLS')  # clear the error queue
 lb.write('syst:pres def')  # set to the default settings
 lb.query('*OPC?')  # wait for commands before, to be completed
