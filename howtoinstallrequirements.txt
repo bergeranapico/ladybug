@@ -1,0 +1,3 @@
+how to install requirements.txt:
+folgendes am Speicherort in cmd eingeben:
+pip install -r requirements.txt
