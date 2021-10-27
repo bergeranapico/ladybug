@@ -10,13 +10,13 @@ from tkinter import filedialog
 
 # define serial number of Ladybug sensor
 ser_lb = '177465'
-print('serial number of LB5940L is: ' + ser_lb)
+print('Serienummer des LB5940L ist: ' + ser_lb)
 
 # Inputs vom User sammeln
 IP = input('IP-Adresse DUT eingeben (z.B. 192.168.1.196): ')
-#ser_lb = input('Seriennummer vom Ladybug 5940L eingeben (z.B. 177465): ')
+# ser_lb = input('Seriennummer vom Ladybug 5940L eingeben (z.B. 177465): ')
 power = input('gewünschten Leistungspegel [dBm] eingeben (z.B. 0) oder "min" bzw. "max" eingeben: ')
-if not power == 'max' or power =='min':
+if not power == 'max' or power == 'min':
     power = float(power)
 steps = input('Anzahl Frequenzschritte eingeben (z.B. 50): ')
 ave = input('Anzahl Mittelungen vom Ladybug 5940L eingeben (z.B. 2): ')
@@ -132,9 +132,9 @@ print('\n')
 dut.write('POW ' + str(power))  # set the power level in dBm
 dut.write('OUTP ON')  # activate the rf output
 
-#define measurement procedure
+# define measurement procedure
 i = 0
-#define the number of repetitions of the measurement procedure
+# define the number of repetitions of the measurement procedure
 rep = 1
 for x in range(rep):
     for f in freq:
@@ -143,7 +143,7 @@ for x in range(rep):
         lb.write('freq ' + str(f))
         lb.query('*OPC?')
         if i == 0:
-            sleep(0.1) #too avoid problem with first measurement being too low
+            sleep(0.1)  # too avoid problem with first measurement being too low
         p.append(float(lb.query('read?')))
         print(p[i])
         i += 1
@@ -153,7 +153,7 @@ freqn = list(freq)*rep
 # deactivate the rf output
 dut.write('OUTP OFF')
 
-#close visa connections
+# close visa connections
 lb.close()
 dut.close()
 
