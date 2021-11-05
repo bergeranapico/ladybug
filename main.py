@@ -9,7 +9,7 @@ import tkinter
 from tkinter import filedialog
 
 # define serial number of Ladybug sensor
-ser_lb = '177465'
+ser_lb = '189289'
 print('Serienummer des LB5940L ist: ' + ser_lb)
 
 # Inputs vom User sammeln
@@ -43,16 +43,16 @@ dut = rm.open_resource('TCPIP0::' + IP + '::inst0::INSTR')
 # initialize ladybug
 lb.read_termination = '\n'
 lb.write_termination = '\n'
-lb.timeout = 6000
+lb.timeout = 5000
 lb.write('*CLS')  # clear the error queue
 lb.write('syst:pres def')  # set to the default settings
-lb.query('*OPC?')  # wait for commands before, to be completed
+sleep(0.5)
 lb.write('aver:coun:auto off')  # turn off automatic averaging
 lb.write('sens:aver:sdet off')  # turn off step detection
 lb.write('init:cont off')  # turn off continuous triggering, necessary to allow "read?"" to start
 lb.write('sens:aver:coun ' + str(ave))  # average over the desired amount of values
 err_lb = lb.query('syst:err?')
-lb.query('*OPC?')
+# lb.query('*OPC?')
 print('ladybug error: ' + err_lb)
 
 # initialize device
@@ -141,7 +141,7 @@ for x in range(rep):
         dut.write('freq ' + str(f))
         dut.query('*OPC?')
         lb.write('freq ' + str(f))
-        lb.query('*OPC?')
+        # lb.query('*OPC?')
         if i == 0:
             sleep(0.1)  # too avoid problem with first measurement being too low
         p.append(float(lb.query('read?')))
@@ -160,8 +160,9 @@ dut.close()
 # store data to csv-file
 formats = [('Comma Separated values', '*.csv')]
 root = tkinter.Tk()
-filename = filedialog.asksaveasfilename(parent=root, filetypes=formats, title="Save as ...")
-
+root.withdraw()
+filename = filedialog.asksaveasfilename(parent=root, filetypes=formats, title="save as ...")
+root.destroy()
 header = ['freq [Hz]', 'power [dBm]']
 rows = [list(a) for a in zip(freqn, p)]
 
@@ -178,3 +179,6 @@ plt.ylabel('power [dBm]')
 plt.grid(True)
 # plt.xscale('log')
 plt.show()
+
+
+
