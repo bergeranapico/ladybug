@@ -9,7 +9,7 @@ import tkinter
 from tkinter import filedialog
 
 # define serial number of Ladybug sensor
-ser_lb = '189289'
+ser_lb = '177465'
 print('Serienummer des LB5940L ist: ' + ser_lb)
 
 # Inputs vom User sammeln
@@ -45,14 +45,14 @@ lb.read_termination = '\n'
 lb.write_termination = '\n'
 lb.timeout = 5000
 lb.write('*CLS')  # clear the error queue
-lb.write('syst:pres def')  # set to the default settings
+lb.write('syst:pres')  # set to the default settings
 sleep(0.5)
 lb.write('aver:coun:auto off')  # turn off automatic averaging
 lb.write('sens:aver:sdet off')  # turn off step detection
 lb.write('init:cont off')  # turn off continuous triggering, necessary to allow "read?"" to start
 lb.write('sens:aver:coun ' + str(ave))  # average over the desired amount of values
 err_lb = lb.query('syst:err?')
-# lb.query('*OPC?')
+#  lb.query('*OPC?')
 print('ladybug error: ' + err_lb)
 
 # initialize device
