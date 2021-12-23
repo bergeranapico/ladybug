@@ -18,6 +18,7 @@ if not power == 'max' or power == 'min':
 att = float(input('Wert vom Attenuator in dB eingeben: '))
 steps = input('Anzahl Frequenzschritte eingeben (z.B. 50): ')
 ave = input('Anzahl Mittelungen vom Ladybug 5940L eingeben (z.B. 2): ')
+path = input('Speicherpfad eingeben: ')
 print('\n')
 
 # Activate the standard IVI backend
@@ -156,11 +157,18 @@ lb.close()
 dut.close()
 
 # store data to csv-file
-formats = [('Comma Separated values', '*.csv')]
+formats = [("All files", "*.*")]
 root = tkinter.Tk()
 root.withdraw()
-filename = filedialog.asksaveasfilename(initialdir='Z:\Production\Testing\Protokolle\Boardtest',
-                                        parent=root, filetypes=formats, title="save as ...")
+
+# set directory to save to standard or to the path that the user entered
+if not path:
+    directory = 'Z:\Production\Testing\Protokolle\Boardtest'
+else:
+    directory = path
+
+filename = filedialog.asksaveasfilename(initialdir=directory,
+                                        defaultextension='.csv', parent=root, filetypes=formats, title="save as ...")
 root.destroy()
 header = ['freq [Hz]', 'power [dBm]']
 rows = [list(a) for a in zip(freqn, p)]
