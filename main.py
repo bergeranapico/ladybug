@@ -9,7 +9,8 @@ import tkinter
 from tkinter import filedialog
 
 # get Inputs from user
-IP = input('IP-Adresse DUT eingeben (z.B. 192.168.1.196): ')
+IP_last = input('letzte Zahlenbereich der IP-Adresse vom DUT eingeben (z.B. 196): ')
+IP = '192.168.1.' + IP_last
 ser_lb = input('Seriennummer vom Ladybug 5940L eingeben (z.B. 177465): ')
 power = input('gewünschten Leistungspegel [dBm] eingeben (z.B. 0) oder "min" bzw. "max" eingeben: ')
 if not power == 'max' or power == 'min':
@@ -139,11 +140,10 @@ for x in range(rep):
         dut.write('freq ' + str(f))
         dut.query('*OPC?')
         lb.write('freq ' + str(f))
-        # lb.query('*OPC?')
         if i == 0:
             sleep(0.1)  # too avoid problem with first measurement being too low
         p.append(float(lb.query('read?'))+att)
-        print(p[i])
+        print(round(f), 'Hz,', round(p[i], 2), 'dBm')
         i += 1
 
 # multiply frequency vector
@@ -159,7 +159,8 @@ dut.close()
 formats = [('Comma Separated values', '*.csv')]
 root = tkinter.Tk()
 root.withdraw()
-filename = filedialog.asksaveasfilename(parent=root, filetypes=formats, title="save as ...")
+filename = filedialog.asksaveasfilename(initialdir='Z:\Production\Testing\Protokolle\Boardtest',
+                                        parent=root, filetypes=formats, title="save as ...")
 root.destroy()
 header = ['freq [Hz]', 'power [dBm]']
 rows = [list(a) for a in zip(freqn, p)]
